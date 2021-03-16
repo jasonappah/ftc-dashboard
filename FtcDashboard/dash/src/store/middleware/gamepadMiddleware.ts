@@ -75,108 +75,138 @@ const REST_GAMEPAD_STATE: GamepadState = {
 
 const extractGamepadState = (gamepad: Gamepad) => {
   const type = GamepadType.getFromGamepad(gamepad);
-  if (!GamepadType.isSupported(type)) {
-    throw new Error('Unable to extract state from unsupported gamepad.');
-  }
+  // if (!GamepadType.isSupported(type)) {
+  //   throw new Error('Unable to extract state from unsupported gamepad.');
+  // }
 
-  switch (type) {
-    case GamepadType.LOGITECH_DUAL_ACTION:
-      return {
-        left_stick_x: cleanMotionValues(-gamepad.axes[1]),
-        left_stick_y: cleanMotionValues(gamepad.axes[2]),
-        right_stick_x: cleanMotionValues(-gamepad.axes[3]),
-        right_stick_y: cleanMotionValues(gamepad.axes[4]),
+  return {
+    left_stick_x: cleanMotionValues(gamepad.axes[0]),
+    left_stick_y: cleanMotionValues(-gamepad.axes[1]),
+    right_stick_x: cleanMotionValues(gamepad.axes[2]),
+    right_stick_y: cleanMotionValues(-gamepad.axes[3]),
 
-        dpad_up: gamepad.buttons[12].pressed,
-        dpad_down: gamepad.buttons[13].pressed,
-        dpad_left: gamepad.buttons[14].pressed,
-        dpad_right: gamepad.buttons[15].pressed,
+    dpad_up: gamepad.buttons[12].pressed,
+    dpad_down: gamepad.buttons[13].pressed,
+    dpad_left: gamepad.buttons[14].pressed,
+    dpad_right: gamepad.buttons[15].pressed,
 
-        a: gamepad.buttons[1].pressed,
-        b: gamepad.buttons[2].pressed,
-        x: gamepad.buttons[0].pressed,
-        y: gamepad.buttons[3].pressed,
+    a: gamepad.buttons[0].pressed,
+    b: gamepad.buttons[1].pressed,
+    x: gamepad.buttons[2].pressed,
+    y: gamepad.buttons[3].pressed,
 
-        guide: false,
-        start: gamepad.buttons[9].pressed,
-        back: gamepad.buttons[8].pressed,
+    guide: gamepad.buttons[16].pressed,
+    start: gamepad.buttons[9].pressed,
+    back: gamepad.buttons[8].pressed,
 
-        left_bumper: gamepad.buttons[4].pressed,
-        right_bumper: gamepad.buttons[5].pressed,
+    left_bumper: gamepad.buttons[4].pressed,
+    right_bumper: gamepad.buttons[5].pressed,
 
-        left_stick_button: gamepad.buttons[10].pressed,
-        right_stick_button: gamepad.buttons[11].pressed,
+    left_stick_button: gamepad.buttons[10].pressed,
+    right_stick_button: gamepad.buttons[11].pressed,
 
-        left_trigger: gamepad.buttons[6].value,
-        right_trigger: gamepad.buttons[7].value,
-      };
-    case GamepadType.XBOX_360:
-      return {
-        // same as SONY_DUALSHOCK_4 except guide and touchpad buttons
-        // tested with generic controller id='Xbox 360 Controller (XInput STANDARD GAMEPAD)' and mapping='standard'
-        // on Win10/Chrome v88 and Edge v87
-        // USB ID=24C6, PID=530A
-        left_stick_x: cleanMotionValues(gamepad.axes[0]),
-        left_stick_y: cleanMotionValues(gamepad.axes[1]),
-        right_stick_x: cleanMotionValues(gamepad.axes[3]),
-        right_stick_y: cleanMotionValues(gamepad.axes[4]),
+    left_trigger: gamepad.buttons[6].value,
+    right_trigger: gamepad.buttons[7].value,
+  };
 
-        dpad_up: gamepad.buttons[12].pressed,
-        dpad_down: gamepad.buttons[13].pressed,
-        dpad_left: gamepad.buttons[14].pressed,
-        dpad_right: gamepad.buttons[15].pressed,
+  // switch (type) {
+  //   case GamepadType.LOGITECH_DUAL_ACTION:
+  //     return {
+  //       left_stick_x: cleanMotionValues(-gamepad.axes[1]),
+  //       left_stick_y: cleanMotionValues(gamepad.axes[2]),
+  //       right_stick_x: cleanMotionValues(-gamepad.axes[3]),
+  //       right_stick_y: cleanMotionValues(gamepad.axes[4]),
 
-        a: gamepad.buttons[0].pressed,
-        b: gamepad.buttons[1].pressed,
-        x: gamepad.buttons[2].pressed,
-        y: gamepad.buttons[3].pressed,
+  //       dpad_up: gamepad.buttons[12].pressed,
+  //       dpad_down: gamepad.buttons[13].pressed,
+  //       dpad_left: gamepad.buttons[14].pressed,
+  //       dpad_right: gamepad.buttons[15].pressed,
 
-        guide: false,
-        start: gamepad.buttons[9].pressed,
-        back: gamepad.buttons[8].pressed,
+  //       a: gamepad.buttons[1].pressed,
+  //       b: gamepad.buttons[2].pressed,
+  //       x: gamepad.buttons[0].pressed,
+  //       y: gamepad.buttons[3].pressed,
 
-        left_bumper: gamepad.buttons[4].pressed,
-        right_bumper: gamepad.buttons[5].pressed,
+  //       guide: false,
+  //       start: gamepad.buttons[9].pressed,
+  //       back: gamepad.buttons[8].pressed,
 
-        left_stick_button: gamepad.buttons[10].pressed,
-        right_stick_button: gamepad.buttons[11].pressed,
-        left_trigger: gamepad.buttons[6].value,
-        right_trigger: gamepad.buttons[7].value,
-      };
-    case GamepadType.SONY_DUALSHOCK_4:
-      return {
-        left_stick_x: cleanMotionValues(gamepad.axes[0]),
-        left_stick_y: cleanMotionValues(gamepad.axes[1]),
-        right_stick_x: cleanMotionValues(gamepad.axes[2]),
-        right_stick_y: cleanMotionValues(gamepad.axes[3]),
+  //       left_bumper: gamepad.buttons[4].pressed,
+  //       right_bumper: gamepad.buttons[5].pressed,
 
-        dpad_up: gamepad.buttons[12].pressed,
-        dpad_down: gamepad.buttons[13].pressed,
-        dpad_left: gamepad.buttons[14].pressed,
-        dpad_right: gamepad.buttons[15].pressed,
+  //       left_stick_button: gamepad.buttons[10].pressed,
+  //       right_stick_button: gamepad.buttons[11].pressed,
 
-        a: gamepad.buttons[0].pressed,
-        b: gamepad.buttons[1].pressed,
-        x: gamepad.buttons[2].pressed,
-        y: gamepad.buttons[3].pressed,
+  //       left_trigger: gamepad.buttons[6].value,
+  //       right_trigger: gamepad.buttons[7].value,
+  //     };
+  //   case GamepadType.XBOX_360:
+  //     return {
+  //       // same as SONY_DUALSHOCK_4 except guide and touchpad buttons
+  //       // tested with generic controller id='Xbox 360 Controller (XInput STANDARD GAMEPAD)' and mapping='standard'
+  //       // on Win10/Chrome v88 and Edge v87
+  //       // USB ID=24C6, PID=530A
+  //       left_stick_x: cleanMotionValues(gamepad.axes[0]),
+  //       left_stick_y: cleanMotionValues(gamepad.axes[1]),
+  //       right_stick_x: cleanMotionValues(gamepad.axes[3]),
+  //       right_stick_y: cleanMotionValues(gamepad.axes[4]),
 
-        guide: gamepad.buttons[16].pressed,
-        start: gamepad.buttons[9].pressed,
-        back: gamepad.buttons[8].pressed,
+  //       dpad_up: gamepad.buttons[12].pressed,
+  //       dpad_down: gamepad.buttons[13].pressed,
+  //       dpad_left: gamepad.buttons[14].pressed,
+  //       dpad_right: gamepad.buttons[15].pressed,
 
-        left_bumper: gamepad.buttons[4].pressed,
-        right_bumper: gamepad.buttons[5].pressed,
+  //       a: gamepad.buttons[0].pressed,
+  //       b: gamepad.buttons[1].pressed,
+  //       x: gamepad.buttons[2].pressed,
+  //       y: gamepad.buttons[3].pressed,
 
-        left_stick_button: gamepad.buttons[10].pressed,
-        right_stick_button: gamepad.buttons[11].pressed,
-        left_trigger: gamepad.buttons[6].value,
-        right_trigger: gamepad.buttons[7].value,
+  //       guide: false,
+  //       start: gamepad.buttons[9].pressed,
+  //       back: gamepad.buttons[8].pressed,
 
-        touchpad: gamepad.buttons[17].pressed,
-      };
-    default:
-      throw new Error(`Unable to handle support gamepad of type ${type}`);
-  }
+  //       left_bumper: gamepad.buttons[4].pressed,
+  //       right_bumper: gamepad.buttons[5].pressed,
+
+  //       left_stick_button: gamepad.buttons[10].pressed,
+  //       right_stick_button: gamepad.buttons[11].pressed,
+  //       left_trigger: gamepad.buttons[6].value,
+  //       right_trigger: gamepad.buttons[7].value,
+  //     };
+  //   case GamepadType.SONY_DUALSHOCK_4:
+  //     return {
+  //       left_stick_x: cleanMotionValues(gamepad.axes[0]),
+  //       left_stick_y: cleanMotionValues(gamepad.axes[1]),
+  //       right_stick_x: cleanMotionValues(gamepad.axes[2]),
+  //       right_stick_y: cleanMotionValues(gamepad.axes[3]),
+
+  //       dpad_up: gamepad.buttons[12].pressed,
+  //       dpad_down: gamepad.buttons[13].pressed,
+  //       dpad_left: gamepad.buttons[14].pressed,
+  //       dpad_right: gamepad.buttons[15].pressed,
+
+  //       a: gamepad.buttons[0].pressed,
+  //       b: gamepad.buttons[1].pressed,
+  //       x: gamepad.buttons[2].pressed,
+  //       y: gamepad.buttons[3].pressed,
+
+  //       guide: gamepad.buttons[16].pressed,
+  //       start: gamepad.buttons[9].pressed,
+  //       back: gamepad.buttons[8].pressed,
+
+  //       left_bumper: gamepad.buttons[4].pressed,
+  //       right_bumper: gamepad.buttons[5].pressed,
+
+  //       left_stick_button: gamepad.buttons[10].pressed,
+  //       right_stick_button: gamepad.buttons[11].pressed,
+  //       left_trigger: gamepad.buttons[6].value,
+  //       right_trigger: gamepad.buttons[7].value,
+
+  //       touchpad: gamepad.buttons[17].pressed,
+  //     };
+  //   default:
+  //     throw new Error(`Unable to handle support gamepad of type ${type}`);
+  // }
 };
 
 let gamepad1Index = -1;
